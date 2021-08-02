@@ -6,7 +6,7 @@ const ThemeContext = createContext<ThemeContextType>({} as ThemeContextType);
 
 export const useTheme = () => useContext(ThemeContext);
 
-export const ThemeProvider = ({
+export const ThemeContextProvider = ({
     children,
 }: {
     children: ReactNode;

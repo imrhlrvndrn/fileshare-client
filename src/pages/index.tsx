@@ -1,8 +1,21 @@
 import Head from 'next/head';
+import { useState } from 'react';
+import { useFile } from '@context/FileProvider';
+import { useTheme } from '../context/ThemeProvider';
+
+// styles
+import { Flex } from '@styles/shared';
+
+// components
+import { BasicLayout } from '@layouts/index';
+import { ShareFile } from '@components/ShareFile';
+import { UploadFile } from '@components/UploadFile';
 
 export default function Home() {
+    const [{ uploaded_file }] = useFile();
+
     return (
-        <div>
+        <BasicLayout>
             <Head>
                 <title>File Share</title>
                 <meta
@@ -13,20 +26,21 @@ export default function Home() {
             </Head>
 
             <main>
-                <h1>
-                    Welcome to <a href="https://nextjs.org">Next.js!</a>
-                </h1>
-            </main>
-
-            <footer>
-                <a
-                    href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                <Flex
+                    width="100%"
+                    height="100vh"
+                    align="center"
+                    justify="center"
+                    direction="column"
+                    style={{ padding: '0 2rem' }}
                 >
-                    Powered by{' '}
-                </a>
-            </footer>
-        </div>
+                    {uploaded_file?.download_url ? (
+                        <ShareFile />
+                    ) : (
+                        <UploadFile />
+                    )}
+                </Flex>
+            </main>
+        </BasicLayout>
     );
 }
