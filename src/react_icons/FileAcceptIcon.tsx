@@ -1,4 +1,10 @@
-export const FileAcceptIcon = ({ size = 26, color = 'currentColor' }) => {
+import { FunctionComponent } from 'react';
+import { IIconProps } from 'src/lib/types';
+
+export const FileAcceptIcon: FunctionComponent<IIconProps> = ({
+    size = 26,
+    color = 'currentColor',
+}) => {
     return (
         <svg
             stroke={color}

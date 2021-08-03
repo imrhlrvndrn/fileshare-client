@@ -1,16 +1,27 @@
-import { Dropzone, RenderFile } from '@components/index';
 import { axios } from '@config/index';
-import { useFile } from '@context/FileProvider';
-import { IUploadedFileResponseWithDownloadLink } from '@context/FileProvider/FileProvider.types';
-import { Button, Text } from '@styles/shared';
 import { AxiosResponse } from 'axios';
-import { Fragment, FunctionComponent, useState } from 'react';
+import { useFile } from '@context/FileProvider';
+import { FunctionComponent, useState } from 'react';
+import { IUploadedFileResponseWithDownloadLink } from '@context/FileProvider/FileProvider.types';
+
+// styles
+import { Button, Text, Alert, Container } from '@styles/shared';
+
+// components
+import { Dropzone, RenderFile } from '@components/index';
 
 export const UploadFile: FunctionComponent = () => {
     const [{ selected_file }, fileDispatch] = useFile();
+    const [error, setError] = useState('');
     const [uploadState, setUploadState] = useState<string>('Upload file');
 
-    const uploadFile = async (file: File) => {
+    const uploadFile = async (file: File | null) => {
+        if (!file) {
+            setTimeout(() => setError(''), 2000);
+            return setError('Please select a file');
+        }
+        setUploadState('Uploading file. Please wait');
+
         const formData = new FormData();
         formData.append('uploadedFile', file);
         try {
@@ -40,7 +51,7 @@ export const UploadFile: FunctionComponent = () => {
     };
 
     return (
-        <Fragment>
+        <Container width="400px">
             <Text as="h1" size="2rem" margin="0 0 2rem 0">
                 Got a file? Share it like sonpapdi
             </Text>
@@ -53,15 +64,14 @@ export const UploadFile: FunctionComponent = () => {
                     }}
                 />
             )}
-            <Button
-                onClick={() => {
-                    setUploadState('Uploading file ...')
-                    selected_file && uploadFile(selected_file)
-                }}
-                width="400px"
-            >
+            {error && (
+                <Alert variant="error" width="400px" margin="1rem 0 0 0">
+                    {error}
+                </Alert>
+            )}
+            <Button onClick={() => uploadFile(selected_file)} width="400px">
                 {uploadState}
             </Button>
-        </Fragment>
+        </Container>
     );
 };

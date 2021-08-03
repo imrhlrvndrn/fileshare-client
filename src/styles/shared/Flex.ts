@@ -14,6 +14,8 @@ interface FlexProps {
     grow?: number;
     width?: string;
     height?: string;
+    margin?: string;
+    padding?: string;
 }
 
 export const Flex = styled.div<FlexProps>`
@@ -25,4 +27,6 @@ export const Flex = styled.div<FlexProps>`
     align-items: ${(props) => props.align || 'start'};
     flex-direction: ${(props) => props.direction || 'row'};
     justify-content: ${(props) => props.justify || 'start'};
+    margin: ${(props) => props.margin || '0'};
+    padding: ${(props) => props.padding || '0'};
 `;
