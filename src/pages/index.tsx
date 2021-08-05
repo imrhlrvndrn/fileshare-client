@@ -28,11 +28,11 @@ export default function Home() {
             <main>
                 <Flex
                     width="100%"
-                    height="100vh"
+                    padding="2rem 0"
+                    minHeight="100vh"
                     align="center"
                     justify="center"
                     direction="column"
-                    style={{ padding: '0 2rem' }}
                 >
                     {uploaded_file?.download_url ? (
                         <ShareFile />

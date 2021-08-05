@@ -24,6 +24,10 @@ export const GlobalStyles = createGlobalStyle`
     button,
     input {
         border: none;
+        width: 100%;
+        border-radius: 5px;
+        min-height: 55px;
+        padding: 0 1rem;
     }
 
     button {

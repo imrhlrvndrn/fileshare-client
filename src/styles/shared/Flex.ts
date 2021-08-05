@@ -14,6 +14,8 @@ interface FlexProps {
     grow?: number;
     width?: string;
     height?: string;
+    minWidth?: string;
+    minHeight?: string;
     margin?: string;
     padding?: string;
 }
@@ -23,6 +25,8 @@ export const Flex = styled.div<FlexProps>`
     flex-grow: ${(props) => props.grow || 0};
     width: ${(props) => props.width || 'auto'};
     height: ${(props) => props.height || 'auto'};
+    min-width: ${(props) => props.minWidth || 'auto'};
+    min-height: ${(props) => props.minHeight || 'auto'};
     flex-wrap: ${(props) => props.wrap || 'no-wrap'};
     align-items: ${(props) => props.align || 'start'};
     flex-direction: ${(props) => props.direction || 'row'};
