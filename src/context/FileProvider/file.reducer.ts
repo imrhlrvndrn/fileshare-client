@@ -14,25 +14,18 @@ export const initialState: IFileInitialState = {
 
 export const fileReducers = (state: IFileInitialState, action: IFileAction) => {
     console.log('file reducer => ', action);
-    const reducers = {
-        updateSelectedFile: ({ file }: { file: File }) => {
-            return { ...state, selected_file: file };
-        },
-        updateUploadedFile: ({
-            file,
-        }: {
-            file: IUploadedFileResponseWithDownloadLink;
-        }) => {
+
+    switch (action.type) {
+        case 'updateSelectedFile':
+            return { ...state, selected_file: action.payload.file };
+
+        case 'updateUploadedFile':
             return {
                 ...state,
-                uploaded_file: file,
+                uploaded_file: action.payload.file,
             };
-        },
-    };
 
-    if (action.type in reducers) {
-        console.log('Action type => ', action.type);
-        return reducers[`${action.type}`](action.payload);
+        default:
+            return state;
     }
-    return state;
 };
