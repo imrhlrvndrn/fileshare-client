@@ -36,7 +36,7 @@ export const UploadFile: FunctionComponent = () => {
                     success: boolean;
                     data: { file: IUploadedFileResponseWithDownloadLink };
                 }>
-            >('/files/upload', formData, {
+            >('/api/files/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

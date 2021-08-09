@@ -17,12 +17,9 @@ import { RenderFile } from '@components/index';
 
 const Download: NextPage<{ file: IFileResponse }> = ({ file }) => {
     const downloadFile = async () => {
-        const { data } = await axios.get(
-            `http://localhost:4000/api/files/${file._id}/download`,
-            {
-                responseType: 'blob',
-            }
-        );
+        const { data } = await axios.get(`/api/files/${file._id}/download`, {
+            responseType: 'blob',
+        });
         fileDownload(data, file.file_name);
     };
 
@@ -70,7 +67,7 @@ export const getServerSideProps = async (
     try {
         const {
             data: { data },
-        } = await axios.get(`http://localhost:4000/api/files/${fileId}`);
+        } = await axios.get(`/api/files/${fileId}`);
         file = data.file;
     } catch (error) {
         console.error(error);

@@ -72,12 +72,11 @@ export const sendEmail = async (
                 success: boolean;
                 data: { message: string };
             }>
-        >(`http://localhost:4000/api/files/email`, {
+        >(`/api/files/email`, {
             fileId,
             emailTo,
             emailFrom,
         });
-        console.log('Sent email response => ', response);
 
         return response;
     } catch (error) {
