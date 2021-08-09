@@ -34,7 +34,6 @@ export const Dropzone: FunctionComponent = () => {
     });
 
     const renderDraggable = (): JSX.Element => {
-        console.log({ isDragAccept, isDragActive, isDragReject });
         if (isDragActive && isDragAccept)
             return (
                 <>
@@ -51,10 +50,7 @@ export const Dropzone: FunctionComponent = () => {
                     <Text as="h2" size="1.2rem" weight="600" margin="1rem 0">
                         Invalid file type
                     </Text>
-                    <Text align="center">
-                        Angrezi samaj na aati aapko? Sirf JPEG, PNG, MP3 files
-                        hi accept karte hai hum!
-                    </Text>
+                    <Text align="center">We only accept jpeg, png files</Text>
                 </>
             );
 
@@ -71,7 +67,7 @@ export const Dropzone: FunctionComponent = () => {
                     Drag &amp; drop some files here, or click to select files
                 </Text>
                 <Text size="0.8rem" align="center">
-                    Only jpeg, png, mp3 files are acceptable. Samje na?
+                    Only jpeg, png files are acceptable.
                 </Text>
             </>
         );
