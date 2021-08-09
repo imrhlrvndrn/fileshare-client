@@ -9,7 +9,7 @@ import { DownloadIcon } from '@icons/DownloadIcon';
 
 // styles
 import { Button, Flex, Text } from '@styles/shared';
-import { DownloadContainer } from './StyledDownload';
+import { DownloadContainer } from '../../../styles/pages/StyledDownload';
 
 // components
 import { BasicLayout } from '@layouts/index';
