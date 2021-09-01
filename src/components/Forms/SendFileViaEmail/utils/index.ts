@@ -1,6 +1,6 @@
 import { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
 import { axios } from '@config/index';
-import { AxiosResponse } from 'axios';
+import { ServerResponse } from 'src/lib/types';
 
 interface ISendEmailProps {
     fileId: string;
@@ -27,13 +27,13 @@ export const updateEmail = (
     }));
 };
 
-export const initialEmailState = {
+export const initialEmailState: ISendEmailInitialState = {
     state: { error: null, message: '' },
     sender: '',
     receiver: '',
 };
 
-export const setErrorAfterSendingEmail = ({
+export const setNotificationAfterSendingEmail = ({
     success,
     state = initialEmailState,
     setState,
@@ -44,7 +44,7 @@ export const setErrorAfterSendingEmail = ({
 }) => {
     if (success)
         return setState((prevState) => ({
-            ...initialEmailState,
+            ...state,
             state: {
                 error: false,
                 message: `Your file has been shared successfully`,
@@ -59,6 +59,41 @@ export const setErrorAfterSendingEmail = ({
     }));
 };
 
+interface ITriggerEmailTransporterProps {
+    event: FormEvent;
+    setEmailStatus: Dispatch<SetStateAction<string>>;
+    email: ISendEmailInitialState;
+    uploaded_file: {
+        _id: string;
+        download_url: string;
+    };
+    setEmail: Dispatch<SetStateAction<ISendEmailInitialState>>;
+}
+
+export const triggerEmailTransporter = async ({
+    event,
+    setEmailStatus,
+    email,
+    uploaded_file,
+    setEmail,
+}: ITriggerEmailTransporterProps) => {
+    setEmailStatus('Sharing your file. Please wait');
+    const response = await sendEmail(event, {
+        emailFrom: email?.sender,
+        emailTo: email?.receiver,
+        fileId: uploaded_file?._id, 
+    });
+
+    if (response?.data?.success) setEmailStatus('File sharing successful');
+    else setEmailStatus('Share file via email');
+
+    setNotificationAfterSendingEmail({
+        success: response!.data.success,
+        setState: setEmail,
+        state: email,
+    });
+};
+
 export const sendEmail = async (
     event: FormEvent,
     { emailTo, emailFrom, fileId }: ISendEmailProps
@@ -67,11 +102,7 @@ export const sendEmail = async (
     try {
         const response = await axios.post<
             any,
-            AxiosResponse<{
-                code: number;
-                success: boolean;
-                data: { message: string };
-            }>
+            ServerResponse<{ message: string }>
         >(`/api/files/email`, {
             fileId,
             emailTo,
@@ -81,5 +112,11 @@ export const sendEmail = async (
         return response;
     } catch (error) {
         console.error(error);
+        return {
+            data: {
+                success: false,
+                message: 'Email was not sent. Please try again',
+            },
+        };
     }
 };

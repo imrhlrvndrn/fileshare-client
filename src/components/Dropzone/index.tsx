@@ -12,9 +12,8 @@ import { Flex, Text } from '@styles/shared';
 import { StyledDropzone } from './StyledDropzone';
 
 export const Dropzone: FunctionComponent = () => {
-    const [{ selected_file }, fileDispatch] = useFile();
+    const [_, fileDispatch] = useFile();
     const onDrop = useCallback((acceptedFiles) => {
-        console.log(acceptedFiles[0]);
         fileDispatch({
             type: 'updateSelectedFile',
             payload: { file: acceptedFiles[0] },
@@ -43,6 +42,7 @@ export const Dropzone: FunctionComponent = () => {
                     </Text>
                 </>
             );
+
         if (isDragActive && isDragReject)
             return (
                 <>

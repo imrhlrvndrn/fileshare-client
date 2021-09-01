@@ -1,18 +1,18 @@
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 
 // styles
 import { Alert, Button, Container } from '@styles/shared';
 import {
     initialEmailState,
     ISendEmailInitialState,
-    sendEmail,
-    setErrorAfterSendingEmail,
+    triggerEmailTransporter,
     updateEmail,
 } from './utils';
 import { useFile } from '@context/FileProvider';
 
 export const SendFileViaEmail = () => {
     const [{ uploaded_file }] = useFile();
+    const [emailStatus, setEmailStatus] = useState('Share file via email');
     const [email, setEmail] =
         useState<ISendEmailInitialState>(initialEmailState);
 
@@ -28,7 +28,10 @@ export const SendFileViaEmail = () => {
     return (
         <Container background="#f4f4f4" padding="2rem">
             {email?.state?.message && (
-                <Alert variant={email.state.error ? 'error' : 'success'}>
+                <Alert
+                    margin="0 0 1rem 0"
+                    variant={email.state.error ? 'error' : 'success'}
+                >
                     {email.state.message}
                 </Alert>
             )}
@@ -60,21 +63,17 @@ export const SendFileViaEmail = () => {
                 <Button
                     width="100%"
                     type="submit"
-                    onClick={async (event) => {
-                        const response = await sendEmail(event, {
-                            emailFrom: email?.sender,
-                            emailTo: email?.receiver,
-                            fileId: uploaded_file?._id,
-                        });
-
-                        setErrorAfterSendingEmail({
-                            success: response!.data.success,
-                            setState: setEmail,
-                            state: email,
-                        });
-                    }}
+                    onClick={(event) =>
+                        triggerEmailTransporter({
+                            event,
+                            setEmail,
+                            setEmailStatus,
+                            email,
+                            uploaded_file,
+                        })
+                    }
                 >
-                    Send file via email
+                    {emailStatus}
                 </Button>
             </form>
         </Container>

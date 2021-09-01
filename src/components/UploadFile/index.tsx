@@ -1,5 +1,6 @@
+import { triggerFileUpload } from './utils';
 import { axios } from '@config/index';
-import { AxiosResponse } from 'axios';
+import { ServerResponse } from 'src/lib/types';
 import { useFile } from '@context/FileProvider';
 import { FunctionComponent, useState } from 'react';
 import { IUploadedFileResponseWithDownloadLink } from '@context/FileProvider/FileProvider.types';
@@ -15,45 +16,10 @@ export const UploadFile: FunctionComponent = () => {
     const [error, setError] = useState('');
     const [uploadState, setUploadState] = useState<string>('Upload file');
 
-    const uploadFile = async (file: File | null) => {
-        if (!file) {
-            setTimeout(() => setError(''), 2000);
-            return setError('Please select a file');
-        }
-        setUploadState('Uploading file. Please wait');
-
-        const formData = new FormData();
-        formData.append('uploadedFile', file);
-        try {
-            const {
-                data: {
-                    data: { file: uploadedFile },
-                },
-            } = await axios.post<
-                any,
-                AxiosResponse<{
-                    code: number;
-                    success: boolean;
-                    data: { file: IUploadedFileResponseWithDownloadLink };
-                }>
-            >('/api/files/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            fileDispatch({
-                type: 'updateUploadedFile',
-                payload: { file: uploadedFile },
-            });
-        } catch (error) {
-            console.error(error.response.data);
-        }
-    };
-
     return (
         <Container width="400px">
             <Text as="h1" size="2rem" margin="0 0 2rem 0">
-                Got a file? Share it like sonpapdi
+                Got a file? Share it like soan papdi
             </Text>
             <Dropzone />
             {selected_file?.name && selected_file?.size && (
@@ -69,7 +35,17 @@ export const UploadFile: FunctionComponent = () => {
                     {error}
                 </Alert>
             )}
-            <Button onClick={() => uploadFile(selected_file)} width="400px">
+            <Button
+                onClick={() =>
+                    triggerFileUpload({
+                        file: selected_file,
+                        setError,
+                        setState: setUploadState,
+                        fileDispatch,
+                    })
+                }
+                width="400px"
+            >
                 {uploadState}
             </Button>
         </Container>

@@ -3,7 +3,6 @@ import { sizeInMb } from '@utils/index';
 
 // styles
 import { Text, Flex } from '@styles/shared';
-import { RenderFileContainer } from './StyledFileRender';
 import { Container } from '@styles/shared/Container';
 
 interface IRenderFileProps {

@@ -1,3 +1,5 @@
+import { AxiosResponse } from 'axios';
+
 export interface IFileResponseWithDownloadLink {
     _id: string;
     download_url: string;
@@ -16,4 +18,12 @@ export interface IFileResponse {
 export interface IIconProps {
     size?: number;
     color?: string;
+}
+
+export interface ServerResponse<T = any> extends AxiosResponse {
+    data: {
+        code: number;
+        success: boolean;
+        data: T;
+    };
 }
