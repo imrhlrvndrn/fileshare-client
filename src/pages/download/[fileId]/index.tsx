@@ -17,9 +17,14 @@ import { RenderFile } from '@components/index';
 
 const Download: NextPage<{ file: IFileResponse }> = ({ file }) => {
     const downloadFile = async () => {
-        const { data } = await axios.get(`/api/files/${file._id}/download`, {
-            responseType: 'blob',
-        });
+        const fileResponse = await axios.get(
+            `/api/files/${file._id}/download`,
+            {
+                responseType: 'blob',
+            }
+        );
+        const { data } = fileResponse;
+        console.log('downloaded file response obj => ', fileResponse);
         fileDownload(data, file.file_name);
     };
 

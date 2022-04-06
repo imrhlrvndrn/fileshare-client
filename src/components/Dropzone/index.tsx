@@ -32,7 +32,7 @@ export const Dropzone: FunctionComponent = () => {
         accept: 'image/jpeg, image/png',
     });
 
-    const renderDraggable = (): JSX.Element => {
+    const renderDraggableState = (): JSX.Element => {
         if (isDragActive && isDragAccept)
             return (
                 <>
@@ -88,7 +88,7 @@ export const Dropzone: FunctionComponent = () => {
                 justify="center"
             >
                 <input {...getInputProps()} type="file" />
-                {renderDraggable()}
+                {renderDraggableState()}
             </Flex>
         </StyledDropzone>
     );

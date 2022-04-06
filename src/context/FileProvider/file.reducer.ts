@@ -1,8 +1,4 @@
-import {
-    IFileAction,
-    IFileInitialState,
-    IUploadedFileResponseWithDownloadLink,
-} from './FileProvider.types';
+import { IFileAction, IFileInitialState } from './FileProvider.types';
 
 export const initialState: IFileInitialState = {
     selected_file: null,
@@ -10,6 +6,7 @@ export const initialState: IFileInitialState = {
         _id: '',
         download_url: '',
     },
+    email_share_state: false,
 };
 
 export const fileReducers = (state: IFileInitialState, action: IFileAction) => {
@@ -23,6 +20,12 @@ export const fileReducers = (state: IFileInitialState, action: IFileAction) => {
             return {
                 ...state,
                 uploaded_file: action.payload.file,
+            };
+
+        case 'updateEmailShareState':
+            return {
+                ...state,
+                email_share_state: action.payload,
             };
 
         default:

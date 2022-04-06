@@ -1,9 +1,6 @@
 import { triggerFileUpload } from './utils';
-import { axios } from '@config/index';
-import { ServerResponse } from 'src/lib/types';
 import { useFile } from '@context/FileProvider';
 import { FunctionComponent, useState } from 'react';
-import { IUploadedFileResponseWithDownloadLink } from '@context/FileProvider/FileProvider.types';
 
 // styles
 import { Button, Text, Alert, Container } from '@styles/shared';

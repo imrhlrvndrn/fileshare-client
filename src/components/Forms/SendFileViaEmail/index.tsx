@@ -11,7 +11,7 @@ import {
 import { useFile } from '@context/FileProvider';
 
 export const SendFileViaEmail = () => {
-    const [{ uploaded_file }] = useFile();
+    const [{ uploaded_file }, fileDispatch] = useFile();
     const [emailStatus, setEmailStatus] = useState('Share file via email');
     const [email, setEmail] =
         useState<ISendEmailInitialState>(initialEmailState);
@@ -70,6 +70,7 @@ export const SendFileViaEmail = () => {
                             setEmailStatus,
                             email,
                             uploaded_file,
+                            fileDispatch
                         })
                     }
                 >

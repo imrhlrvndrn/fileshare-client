@@ -1,6 +1,7 @@
 export interface IFileInitialState {
     selected_file: File | null;
     uploaded_file: IUploadedFileResponseWithDownloadLink;
+    email_share_state: boolean;
 }
 
 export interface IUploadedFileResponseWithDownloadLink {
@@ -16,9 +17,13 @@ export type IFileContextType = [
 export type IFileAction =
     | {
           type: 'updateSelectedFile';
-          payload: { file: File };
+          payload: { file: File | null };
       }
     | {
           type: 'updateUploadedFile';
           payload: { file: IUploadedFileResponseWithDownloadLink };
+      }
+    | {
+          type: 'updateEmailShareState';
+          payload: boolean;
       };

@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useFile } from '@context/FileProvider';
 import { useTheme } from '../context/ThemeProvider';
 
@@ -12,7 +12,15 @@ import { ShareFile } from '@components/ShareFile';
 import { UploadFile } from '@components/UploadFile';
 
 export default function Home() {
-    const [{ uploaded_file }] = useFile();
+    const [{ uploaded_file, email_share_state }, fileDispatch] = useFile();
+
+    useEffect(() => {
+        if (uploaded_file?.download_url)
+            fileDispatch({
+                type: 'updateSelectedFile',
+                payload: { file: null },
+            });
+    }, [uploaded_file, fileDispatch]);
 
     return (
         <BasicLayout>
