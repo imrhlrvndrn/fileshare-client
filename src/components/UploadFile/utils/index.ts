@@ -71,7 +71,7 @@ export const triggerFileUpload = async ({
         );
         setTimeout(() => setErrorState(setError, ''), 5000);
         setUploadState(setState, 'Upload file');
-        console.error(error?.response?.data);
+        console.error(error);
     }
 };
 
